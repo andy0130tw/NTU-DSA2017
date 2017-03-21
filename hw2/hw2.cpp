@@ -108,10 +108,10 @@ double checkMem() {
 // search if the word is in the hashMap; return a pointer to it if found,
 // otherwise return NULL with position (if specified) set to an offset
 // that can be used to safely store the item
-hashNode* hashSearch(const char w[], hashKey* pos = NULL) {
+hashNode* hashSearch(const char w[], hashKey* pos = nullptr) {
     hashKey hashVal = hashFunc(w);
     hashKey v = hashVal;
-    while (hashMap[v] != NULL) {
+    while (hashMap[v] != nullptr) {
         if (strcmp(w, wordStore.get(hashMap[v]->word)) == 0) {
             return hashMap[v];
         }
@@ -120,10 +120,10 @@ hashNode* hashSearch(const char w[], hashKey* pos = NULL) {
         if (v == hashVal) break;  // table full; should not happen
     }
     // hashMap[v] is safe to insert (as long as the table is not full)
-    if (pos != NULL) {
+    if (pos != nullptr) {
         *pos = v;
     }
-    return NULL;
+    return nullptr;
 }
 
 void dumpHashMap() {
@@ -250,7 +250,7 @@ void buildQueryRecursive(char** boffs[], vector<queryString>* result, char* aux[
             .query = tmp,
             .length = len
         });
-        while (len < toks) tmp[len++] = NULL;
+        while (len < toks) tmp[len++] = nullptr;
         return;
     }
 
@@ -270,7 +270,7 @@ void queryPlanner(char query[], vector<queryString>* result) {
     int tokenCnt = 0;
     char* tokens[NGRAM_MAX_N + 1] = { strtok(query, " ") };
     while (tokens[tokenCnt]) {
-        tokens[++tokenCnt] = strtok(NULL, " ");
+        tokens[++tokenCnt] = strtok(nullptr, " ");
 
 #ifdef CHECK_QUERY
         // ensure that tokenCnt <= NGRAM_MAX_N
@@ -306,7 +306,7 @@ void queryPlanner(char query[], vector<queryString>* result) {
         }
 
         while (boffs[i][bcnt]) {
-            char* nextBranch = strtok(NULL, "/");
+            char* nextBranch = strtok(nullptr, "/");
             if (nextBranch) {
                 int ignore = 0;
                 // ignore the token if we once met
@@ -355,7 +355,7 @@ void queryPlanner(char query[], vector<queryString>* result) {
 }
 
 int serveQuery() {
-    static char* query = NULL;
+    static char* query = nullptr;
     static size_t queryLen = 1024;
     ssize_t len = getline(&query, &queryLen, stdin);
     if (len == -1) return -1;
@@ -385,8 +385,8 @@ int serveQuery() {
                 // represent exactly an actual word
                 qlowerBound[i]++;
                 if (qs.query[j][0] != '_') {
-                    hashNode* node = hashSearch(qs.query[j], NULL);
-                    if (node == NULL) {
+                    hashNode* node = hashSearch(qs.query[j], nullptr);
+                    if (node == nullptr) {
                         eprintf("FATAL: Word \"%s\" is not found in any files\n", qs.query[j]);
                         printf("output: 0\n");
                         // XXX: memory leak
@@ -516,7 +516,7 @@ int main(int argc, char* argv[]) {
         sprintf(pathBuf, "%s/%1dgm.small.txt", argv[1], arity);
         eprintf("Opening %d-gram file \"%s\"\n", arity, pathBuf);
         dataset[i] = fopen(pathBuf, "r");
-        if (dataset[i] == NULL) {
+        if (dataset[i] == nullptr) {
             perror("fopen");
             return 1;
         }
@@ -548,9 +548,9 @@ int main(int argc, char* argv[]) {
                 // insert word if not found
                 hashKey insPos;
                 hashNode* node = hashSearch(buf, &insPos);
-                if (node == NULL) {
+                if (node == nullptr) {
 #ifdef CHECK_HASHTABLE
-                    if (hashMap[insPos] != NULL) {
+                    if (hashMap[insPos] != nullptr) {
                         eprintf("Hash table full (%u entries)!! Aborting...\n", HASH_SIZE);
                         abort();
                     }
