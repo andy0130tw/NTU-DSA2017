@@ -167,32 +167,30 @@ static inline bool docInstCmp(const doc& a, const doc& b) {
 // return 1 iff input (in document) matches pattern (in queryString).
 int patternMatch(queryString* qs, doc* inp, int inpLen) {
     // have consumed 0, 1, ..., N, tokens, where N is the input length
-    // so there are N + 1 states at most
-    int numStates = inpLen + 1;
-    int states[2][numStates], flip = 0;
-    memset(states[0], 0, sizeof(*states));
+    // so there are N + 1 states at most, and we use N + 1 bits.
+    int states[2], flip = 0;
     // the cursor remains at the first position
-    states[0][0] = 1;
+    states[0] = 1;
 
     for (int i = 0; i < qs->length; i++) {
         // clean state
-        memset(states[!flip], 0, sizeof(*states));
+        states[!flip] = 0;
         if (qs->query[i][0] == '*') {
             for (int j = 0; j <= inpLen; j++) {
-                if (states[flip][j]) {
+                if (states[flip] & (1 << j)) {
                     // set flag to (the first one met from start) and beyond
-                    while (j <= inpLen) states[!flip][j++] = 1;
+                    while (j <= inpLen) states[!flip] |= 1 << j, j++;
                     break;
                 }
             }
         } else {
             for (int j = 0; j < inpLen; j++) {
+                char* inpStr = wordStore.get(inp->word[j]);
                 // for all mark set, if match (either wildcard or word equal)
                 // then pass the mark to the next position
-                char* inpStr = wordStore.get(inp->word[j]);
-                if (states[flip][j] &&
+                if ((states[flip] & (1 << j)) &&
                    (qs->query[i][0] == '_' || strcmp(qs->query[i], inpStr) == 0)) {
-                    states[!flip][j + 1] = 1;
+                    states[!flip] |= 1 << (j + 1);
                 }
             }
         }
@@ -200,7 +198,7 @@ int patternMatch(queryString* qs, doc* inp, int inpLen) {
     }
     // peek the last state at the end,
     // accept if it is marked, reject if not
-    return states[flip][inpLen] & 1;
+    return states[flip] & (1 << inpLen);
 }
 
 // preform an n-way merge on lists of documents and append the intersection to the result collection
