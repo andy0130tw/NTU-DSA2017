@@ -139,7 +139,7 @@ static inline bool resultCmp(const pairDocArity& a, const pairDocArity& b) {
     unsigned int aa = adoc->freq, bb = bdoc->freq;
     if (aa > bb) return true;
     if (aa < bb) return false;
-    for (unsigned int i = 0, c = min(a.second, b.second); i < c; i++) {
+    for (unsigned int i = 0; i < NGRAM_MAX_N; i++) {
         int cmp = strcmp(
             wordStore.get(adoc->word[i]),
             wordStore.get(bdoc->word[i]));
