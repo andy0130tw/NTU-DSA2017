@@ -1,0 +1,46 @@
+query: regarding our site to
+output: 1
+regarding our site to	1103
+query: occupation does
+output: 1
+occupation does	4704
+query: resolution with all
+output: 1
+resolution with all	6938
+query: eliminated _ _ the
+output: 5
+eliminated most of the	6744
+eliminated many of the	4848
+eliminated some of the	4467
+eliminated all of the	4131
+eliminated much of the	3933
+query: resulted from negligent
+output: 1
+resulted from negligent	3434
+query: understand that you _ _
+output: 5
+understand that you do not	11830
+understand that you can not	9507
+understand that you are not	6594
+understand that you are using	5366
+understand that you want to	5175
+query: alprazolam international
+output: 1
+alprazolam international	1414
+query: free/on cartoon sex _
+output: 5
+free cartoon sex video	10298
+free cartoon sex free	7323
+free cartoon sex pics	4177
+free cartoon sex movie	3575
+free cartoon sex film	2412
+query: and _ states
+output: 5
+and other states	139463
+and the states	105148
+and surrounding states	25879
+and all states	17070
+and some states	16149
+query: storing large _ of/for/with data
+output: 1
+storing large amounts of data	2578

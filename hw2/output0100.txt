@@ -1,0 +1,481 @@
+query: regarding our site to
+output: 1
+regarding our site to	1103
+query: occupation does
+output: 1
+occupation does	4704
+query: resolution with all
+output: 1
+resolution with all	6938
+query: eliminated _ _ the
+output: 5
+eliminated most of the	6744
+eliminated many of the	4848
+eliminated some of the	4467
+eliminated all of the	4131
+eliminated much of the	3933
+query: resulted from negligent
+output: 1
+resulted from negligent	3434
+query: understand that you _ _
+output: 5
+understand that you do not	11830
+understand that you can not	9507
+understand that you are not	6594
+understand that you are using	5366
+understand that you want to	5175
+query: alprazolam international
+output: 1
+alprazolam international	1414
+query: free/on cartoon sex _
+output: 5
+free cartoon sex video	10298
+free cartoon sex free	7323
+free cartoon sex pics	4177
+free cartoon sex movie	3575
+free cartoon sex film	2412
+query: and _ states
+output: 5
+and other states	139463
+and the states	105148
+and surrounding states	25879
+and all states	17070
+and some states	16149
+query: storing large _ of/for/with data
+output: 1
+storing large amounts of data	2578
+query: ?text/by from _ input
+output: 5
+from the input	188559
+from standard input	50520
+from an input	36307
+from user input	7649
+from this input	6650
+query: latest document
+output: 1
+latest document	9015
+query: course materials/for _ _
+output: 5
+course materials is subject	23374
+course for this date	21643
+course for students who	11304
+course for those who	11019
+course for the future	10583
+query: is the _ in/up
+output: 5
+is the leader in	223826
+is the first in	220947
+is the case in	211162
+is the latest in	159819
+is the same in	135430
+query: cup of shut
+output: 1
+cup of shut	25325
+query: ?_ for volunteers for
+output: 5
+for volunteers for	20189
+looking for volunteers for	7644
+asked for volunteers for	1912
+call for volunteers for	1731
+asking for volunteers for	1059
+query: system turned
+output: 1
+system turned	7749
+query: comprehensive information and _
+output: 5
+comprehensive information and communications	9706
+comprehensive information and research	6530
+comprehensive information and reviews	4545
+comprehensive information and resources	2592
+comprehensive information and advice	2584
+query: ?to _ using ?the
+output: 5
+by using	11985796
+are using	7862630
+of using	5546641
+by using the	3833081
+and using	3727868
+query: yearold/with _ pics
+output: 5
+with the pics	9747
+with animal pics	8373
+with free pics	5954
+with some pics	5210
+with new pics	3669
+query: developing _ shows
+output: 2
+developing new shows	1153
+developing countries shows	1045
+query: government/down/near/down credit _
+output: 5
+government credit card	5612
+government credit cards	3494
+government credit report	2726
+down credit card	2090
+down credit cards	1174
+query: _ flight simulator
+output: 5
+combat flight simulator	30782
+microsoft flight simulator	23538
+the flight simulator	7080
+with flight simulator	5333
+for flight simulator	3635
+query: message as indicated _
+output: 1
+message as indicated hereunder	1947
+query: skirts chaplain
+output: 1
+skirts chaplain	3184
+query: basis of the ideal
+output: 1
+basis of the ideal	1131
+query: while other _
+output: 5
+while other people	17064
+while other times	12120
+while other parts	11624
+while other countries	10164
+while other areas	9047
+query: * by
+output: 5
+provided by	49084624
+posted by	38465011
+sorted by	27801270
+powered by	21158872
+used by	18477888
+query: for a furry
+output: 1
+for a furry	1609
+query: snap clip/without
+output: 2
+snap clip	2080
+snap without	1063
+query: _ and any
+output: 5
+email and any	74208
+message and any	61483
+mail and any	55064
+all and any	53059
+website and any	52955
+query: _ for people
+output: 5
+loans for people	467207
+loan for people	439325
+is for people	379601
+looking for people	295005
+services for people	165635
+query: _ in front
+output: 5
+right in front	545182
+out in front	334546
+standing in front	260318
+directly in front	229588
+up in front	227905
+query: from/by his home/in ?state of
+output: 1
+from his home state of	2020
+query: ladyboy _
+output: 5
+ladyboy gay	217824
+ladyboy shemale	146076
+ladyboy ladyboy	128378
+ladyboy incest	114218
+ladyboy tranny	113523
+query: spoke * words in
+output: 1
+spoke these words in	1104
+query: * of public
+output: 5
+of public	9961091
+use of public	251554
+number of public	160867
+matter of public	144846
+department of public	130621
+query: to embrace new technology
+output: 1
+to embrace new technology	3313
+query: protein representing
+output: 1
+protein representing	1985
+query: ?roulette table roulette tips
+output: 2
+table roulette tips	1517
+roulette table roulette tips	1516
+query: driven under
+output: 1
+driven under	7988
+query: the campuses of
+output: 1
+the campuses of	22003
+query: of succeeding and
+output: 1
+of succeeding and	1695
+query: _ further pictures
+output: 2
+require further pictures	2413
+for further pictures	1035
+query: same year there ?_
+output: 2
+same year there	2596
+same year there were	1076
+query: ?members * be appointed/to/without by
+output: 5
+be appointed by	463081
+shall be appointed by	223748
+to be appointed by	97320
+will be appointed by	50066
+who shall be appointed by	29004
+query: debt management personal/_
+output: 5
+debt management program	45097
+debt management debt	44731
+debt management services	43461
+debt management credit	42253
+debt management and	35381
+query: daily tours for
+output: 1
+daily tours for	1598
+query: flowing out/with/near of his
+output: 1
+flowing out of his	1133
+query: encouraging her to
+output: 1
+encouraging her to	13953
+query: _ been produced on
+output: 3
+have been produced on	6794
+has been produced on	5356
+had been produced on	1100
+query: an accepted/near method _
+output: 1
+an accepted method of	3257
+query: ?to/for/for ?_ where _
+output: 5
+where the	44383188
+where you	21600259
+where they	12761372
+where he	11862323
+where it	11751967
+query: it if there _
+output: 4
+it if there is	14669
+it if there was	6901
+it if there are	5185
+it if there were	4840
+query: the delivery cost estimator/_
+output: 2
+the delivery cost estimator	6994
+the delivery cost is	1091
+query: has/by/without to have someone
+output: 1
+has to have someone	1155
+query: _ give ?_ _ the
+output: 5
+will give you the	695726
+to give you the	643372
+to give up the	207794
+can give you the	185419
+to give them the	173061
+query: amature free/in teen/near/with/before porn _
+output: 1
+amature free teen porn photoes	1221
+query: the ?_ to
+output: 5
+the right to	18416776
+the ability to	14116671
+the first to	12017414
+the opportunity to	11726274
+the need to	7681946
+query: agency assigning _
+output: 1
+agency assigning the	2288
+query: _ as/at/under much of the
+output: 5
+out as much of the	8367
+remove as much of the	8145
+well as much of the	6351
+in as much of the	6254
+include as much of the	6142
+query: voting by ballot
+output: 1
+voting by ballot	1574
+query: that there/down were as
+output: 1
+that there were as	3522
+query: ?boot machine
+output: 1
+boot machine	7295
+query: * _ plan
+output: 5
+the plan	7269192
+to plan	3742535
+you plan	2751263
+business plan	1812890
+action plan	1604873
+query: site searching ?is
+output: 2
+site searching	33399
+site searching is	1744
+query: is/than/about budgeted by
+output: 1
+is budgeted by	2426
+query: checks carried ?out daily
+output: 1
+checks carried out daily	4110
+query: greasy panties and began
+output: 1
+greasy panties and began	1192
+query: years that _ has been
+output: 4
+years that he has been	2947
+years that it has been	2892
+years that there has been	1161
+years that she has been	1077
+query: each _
+output: 5
+each other	26422776
+each of	23312606
+each year	9320020
+each book	6061634
+each day	4902695
+query: viagra _ _ brand drug
+output: 1
+viagra boy viagra brand drug	1050
+query: resolution wedding _ _ soon
+output: 1
+resolution wedding photos coming soon	1869
+query: _ very senior
+output: 4
+of very senior	2252
+the very senior	1846
+some very senior	1530
+at very senior	1305
+query: and activities supported _
+output: 1
+and activities supported by	1586
+query: this web site _ ?the
+output: 5
+this web site constitutes	1897178
+this web site is	1333726
+this web site are	611279
+this web site or	234258
+this web site to	226791
+query: _ ?and offer
+output: 5
+to offer	18747582
+we offer	4338766
+can offer	3039179
+an offer	2938334
+and offer	2655168
+query: _ is _ ?my
+output: 5
+there is no	24132924
+it is not	21383684
+argument is not	15940527
+this is the	12973795
+it is the	9912426
+query: ?little _
+output: 5
+little bit	6693276
+little more	5891095
+little or	2609140
+little to	2456274
+little as	2283809
+query: views since posting
+output: 1
+views since posting	3489
+query: us over _ his
+output: 1
+us over to his	1191
+query: ?submit pieces
+output: 1
+submit pieces	1587
+query: work together for peace
+output: 1
+work together for peace	3025
+query: ?black ?and colour
+output: 3
+and colour	662965
+black colour	29963
+black and colour	6539
+query: huge saving ?_
+output: 3
+huge saving	10248
+huge saving over	2810
+huge saving on	1411
+query: _ invited
+output: 5
+are invited	3464090
+be invited	991507
+was invited	734247
+were invited	678873
+been invited	634258
+query: replace diseased
+output: 1
+replace diseased	2869
+query: breakfast proceed to
+output: 1
+breakfast proceed to	2836
+query: en lire
+output: 1
+en lire	3472
+query: and ?in the legislature/for/to
+output: 4
+and the legislature	64027
+and the to	31050
+and the for	19238
+and in the legislature	1060
+query: product in _
+output: 5
+product in the	375943
+product in our	102111
+product in this	74649
+product in your	46508
+product in question	36894
+query: have seen _ _
+output: 5
+have seen this movie	321621
+have seen in the	117614
+have seen this show	79080
+have seen that the	59333
+have seen so far	58704
+query: _ cell *
+output: 5
+the cell	3715697
+stem cell	1486909
+of cell	1478906
+your cell	1353023
+and cell	1168052
+query: _ careful supervision
+output: 4
+replaces careful supervision	7545
+the careful supervision	2483
+under careful supervision	1857
+and careful supervision	1044
+query: tropicalresources dot
+output: 1
+tropicalresources dot	1160
+query: _ has *
+output: 5
+it has	36938989
+and has	29203267
+that has	28065080
+he has	22193159
+who has	20146800
+query: office equipment to major cities
+output: 1
+office equipment to major cities	10599
+query: ?globe any/after time you like
+output: 2
+any time you like	20561
+globe any time you like	1418
+query: for/by windoows
+output: 1
+for windoows	1620
+query: what _ wanted _ do
+output: 5
+what he wanted to do	36550
+what we wanted to do	24738
+what they wanted to do	24421
+what she wanted to do	15580
+what you wanted to do	11374
