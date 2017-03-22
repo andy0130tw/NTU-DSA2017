@@ -60,7 +60,7 @@ struct doc {
     unsigned int word[NGRAM_MAX_N];
 };
 
-static doc* docArr;
+static doc docArr[NGRAM_ENTRIES];
 static unsigned int clusterResult[4][RESULT_SET_MAX];
 
 struct hashNode {
@@ -360,21 +360,24 @@ int serveQuery() {
     int collSize = qColl.size();
 
     hashNode* termsHashNode[collSize][NGRAM_MAX_N];
-    int termCnt[collSize];        // to record numbers of words to filter with
-    int qlowerBound[collSize];    // to record numbers of words a query should have at least
-    int hasStar[collSize];        // whether the query has Kleene-star (will allow arbitrary)
-    int doLocalSearch[collSize];  // whether the query is local or global
+    int termCnt[collSize];      // to record numbers of words to filter with
+
+    int lowerBound[collSize];  // to record numbers of words a query should have at least
+    int upperBound[collSize];   // whether the query has Kleene-star (will allow arbitrary)
+    int clusterGlobal[4] = {};  // whether the cluster is global search
 
     // pre-processing... calculate the bound of n-gram for each sub-query
     for (int i = 0; i < collSize; i++) {
         queryString& qs = qColl[i];
-        termCnt[i] = qlowerBound[i] = hasStar[i] = 0;
+        termCnt[i] = lowerBound[i] = 0;
+        upperBound[i] = qs.length;
         for (int j = 0; j < qs.length; j++) {
             if (qs.query[j][0] == '*') {
-                hasStar[i] = 1;
+                // if containing Kleene-star, every n-gram is under consideration
+                upperBound[i] = NGRAM_MAX_N;
             } else {
                 // represent exactly an actual word
-                qlowerBound[i]++;
+                lowerBound[i]++;
                 if (qs.query[j][0] != '_') {
                     hashNode* node = hashSearch(qs.query[j], nullptr);
                     if (node == nullptr) {
@@ -387,58 +390,73 @@ int serveQuery() {
                 }
             }
         }
-        // classify local search / global search
-        doLocalSearch[i] = termCnt[i] > 0;
-    }
 
-    docCollection qResult;
-    unordered_set<unsigned int> qResultMap;
+        if (lowerBound[i] <= 1) lowerBound[i] = 2;
 
-    // construct searching set
-    for (int i = 0; i < collSize; i++) {
-        queryString& qs = qColl[i];
-        // if containing Kleene-star, every n-gram is under consideration
-        int upperBound = hasStar[i] ? NGRAM_MAX_N : qs.length;
-        // ... sometimes the lower bound is too low
-        if (qlowerBound[i] <= 1) qlowerBound[i] = 2;
-        eprintf("Starting query #%d in %d~%d-gram, %s...\n",
-            i + 1, qlowerBound[i], upperBound, doLocalSearch[i] ? "local" : "global");
-
-        if ((qs.length <= 1 && !hasStar[i]) || qs.length > NGRAM_MAX_N) {
+        if ((qs.length <= 1 && upperBound[i] <= 1) || qs.length > NGRAM_MAX_N) {
             // there is no n-gram with such length, so do not perform this query!
-            eprintf("SKIP %d-word query\n", qs.length);
+            eprintf("register SKIP(%d) %d-word query\n", i + 1, qs.length);
+            upperBound[i] = 0;
             continue;
         }
 
-        for (int arity = qlowerBound[i]; arity <= upperBound; arity++) {
-            int d = arity - 2;
+        // classify local search / global search
+        if (termCnt[i] == 0) {
+            for (int arity = lowerBound[i]; arity <= upperBound[i]; arity++) {
+                eprintf("register GLOBAL(%d) query for %d-gram\n", i + 1, arity);
+                clusterGlobal[arity - 2] = 1;
+            }
+        }
+    }
 
-            // the result candidate
-            docCollection qResultCand;
+    docCollection qResult;
 
-            if (doLocalSearch[i]) {
-                docCollection* term[termCnt[i]];
-                // XXX: for termCnt[i] == 1, this copying is unnecessary
-                for (int k = 0; k < termCnt[i]; k++) {
-                    term[k] = &termsHashNode[i][k]->doclist[d];
-                }
-                if (termCnt[i] == 1) {
-                    int sz = term[0]->size();
-                    qResultCand.reserve(sz);
-                    for (int k = 0; k < sz; k++) {
-                        qResultCand.push_back((*term[0])[k]);
-                    }
-                } else {
-                    // perform n-way merge on each n-gram query
-                    filterDocByWords(term, termCnt[i], &qResultCand);
+    // construct searching set
+    for (int arity = 2; arity <= NGRAM_MAX_N; arity++) {
+        int d = arity - 2;
+        eprintf("Starting queries that are on %d-gram (%s)...\n",
+            arity, clusterGlobal[d] ? "global" : "local");
+
+        // the result candidate
+        docCollection qResultCand;
+
+        // if global search then the result is trivial
+        if (clusterGlobal[d]) {
+            for (int k = 0; k < RESULT_SET_MAX; k++) {
+                qResult.push_back(clusterResult[d][k]);
+            }
+            // no further check is needed; n-grams are mutually exclusive
+            continue;
+        }
+
+        // only used to check for duplication
+        unordered_set<unsigned int> qResultMap;
+
+        // otherwise we need to dig into words
+        for (int i = 0; i < collSize; i++) {
+            if (arity < lowerBound[i] || arity > upperBound[i])
+                continue;
+
+            eprintf("[%d-gram] Processing query #%d (%d~%d-gram)...\n",
+                arity, i + 1, lowerBound[i], upperBound[i]);
+
+            docCollection* term[termCnt[i]];
+            // XXX: for termCnt[i] == 1, this copying is unnecessary
+            for (int k = 0; k < termCnt[i]; k++) {
+                term[k] = &termsHashNode[i][k]->doclist[d];
+            }
+            if (termCnt[i] == 1) {
+                int sz = term[0]->size();
+                qResultCand.reserve(sz);
+                for (int k = 0; k < sz; k++) {
+                    qResultCand.push_back((*term[0])[k]);
                 }
             } else {
-                eprintf("GLOBAL query for %d-gram\n", arity);
-                for (int k = 0; k < RESULT_SET_MAX; k++) {
-                    qResultCand.push_back(clusterResult[d][k]);
-                }
+                // perform n-way merge on each n-gram query
+                filterDocByWords(term, termCnt[i], &qResultCand);
             }
 
+            // still, "candidates" are not the final result
             // filter down the result set by automata
             for (int k = 0, c = qResultCand.size(); k < c; k++) {
                 doc* tarWord = docArr + qResultCand[k];
@@ -452,10 +470,9 @@ int serveQuery() {
         }
     }
 
-    // eprintf("result size = %zu\n", qResult.size());
-    int needPartialSort = qResultMap.size() > RESULT_SET_MAX;
+    int needPartialSort = qResult.size() > RESULT_SET_MAX;
 
-    // sort by frequencies; de-dup IS SURELY needed
+    // sort by frequencies
     if (needPartialSort) {
         partial_sort(
             qResult.begin(), qResult.begin() + RESULT_SET_MAX,
@@ -534,7 +551,6 @@ int main(int argc, char* argv[]) {
     // so we no longer need to keep the arity of a document
     wordStore.insert((char*) "");
 
-    docArr = new doc[NGRAM_ENTRIES];
     unsigned int docCnt = 0;
 
     for (int i = 0; i < 4; i++) {
