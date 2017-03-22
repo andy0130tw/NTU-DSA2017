@@ -24,7 +24,6 @@ using namespace std;
 
 using hashKey = unsigned int;
 using docCollection = vector<unsigned int>;
-using pairDocArity = pair<unsigned int, unsigned int>;
 
 static struct _wordStore {
     char chunk[WORD_STORE_SIZE];
@@ -60,7 +59,7 @@ struct doc {
 };
 
 static doc* docArr;
-static unsigned int localDocResult[4][RESULT_SET_MAX];
+static unsigned int clusterResult[4][RESULT_SET_MAX];
 
 struct hashNode {
     unsigned int word;
@@ -134,21 +133,6 @@ void dumpHashMap() {
     putchar('\n');
 }
 
-static inline bool resultCmp(const pairDocArity& a, const pairDocArity& b) {
-    doc *adoc = docArr + a.first, *bdoc = docArr + b.first;
-    unsigned int aa = adoc->freq, bb = bdoc->freq;
-    if (aa > bb) return true;
-    if (aa < bb) return false;
-    for (unsigned int i = 0; i < NGRAM_MAX_N; i++) {
-        int cmp = strcmp(
-            wordStore.get(adoc->word[i]),
-            wordStore.get(bdoc->word[i]));
-        if (cmp < 0) return true;
-        else if (cmp > 0) return false;
-    }
-    return false;
-}
-
 static inline bool docInstCmp(const doc& a, const doc& b) {
     if (a.freq > b.freq) return true;
     if (a.freq < b.freq) return false;
@@ -160,6 +144,10 @@ static inline bool docInstCmp(const doc& a, const doc& b) {
         else if (cmp > 0) return false;
     }
     return false;
+}
+
+static inline bool resultCmp(const unsigned int& a, const unsigned int& b) {
+    return docInstCmp(docArr[a], docArr[b]);
 }
 
 /**************** HIGH-LEVEL OPERATIONS START HERE ****************/
@@ -370,9 +358,10 @@ int serveQuery() {
     int collSize = qColl.size();
 
     hashNode* termsHashNode[collSize][NGRAM_MAX_N];
-    int termCnt[collSize];      // to record numbers of words to filter with
-    int qlowerBound[collSize];  // to record numbers of words a query should have at least
-    int hasStar[collSize];
+    int termCnt[collSize];        // to record numbers of words to filter with
+    int qlowerBound[collSize];    // to record numbers of words a query should have at least
+    int hasStar[collSize];        // whether the query has Kleene-star (will allow arbitrary)
+    int doLocalSearch[collSize];  // whether the query is local or global
 
     // pre-processing... calculate the bound of n-gram for each sub-query
     for (int i = 0; i < collSize; i++) {
@@ -396,9 +385,11 @@ int serveQuery() {
                 }
             }
         }
+        // classify local search / global search
+        doLocalSearch[i] = termCnt[i] > 0;
     }
 
-    vector<pairDocArity> qResult;
+    docCollection qResult;
     unordered_set<unsigned int> qResultMap;
 
     // construct searching set
@@ -408,54 +399,51 @@ int serveQuery() {
         int upperBound = hasStar[i] ? NGRAM_MAX_N : qs.length;
         // ... sometimes the lower bound is too low
         if (qlowerBound[i] <= 1) qlowerBound[i] = 2;
-        eprintf("Starting query #%d in %d~%d-gram...\n",
-            i + 1, qlowerBound[i], upperBound);
+        eprintf("Starting query #%d in %d~%d-gram, %s...\n",
+            i + 1, qlowerBound[i], upperBound, doLocalSearch[i] ? "local" : "global");
+
         if ((qs.length <= 1 && !hasStar[i]) || qs.length > NGRAM_MAX_N) {
             // there is no n-gram with such length, so do not perform this query!
             eprintf("SKIP %d-word query\n", qs.length);
             continue;
         }
 
-        for (int d = qlowerBound[i] - 2; d <= upperBound - 2; d++) {
-            int arity = d + 2;
+        for (int arity = qlowerBound[i]; arity <= upperBound; arity++) {
+            int d = arity - 2;
 
             // the result candidate
             docCollection qResultCand;
 
-            // if there are terms to search for, search from the intersection
-            // otherwise we classify it as "global search" and use pre-processed result set instead
-            if (termCnt[i] > 0) {
+            if (doLocalSearch[i]) {
                 docCollection* term[termCnt[i]];
-                if (termCnt[i] == 1) {
-                    // XXX: unnecessary copying
-                    qResultCand = termsHashNode[i][0]->doclist[d];
-                }
+                // XXX: for termCnt[i] == 1, this copying is unnecessary
                 for (int k = 0; k < termCnt[i]; k++) {
                     term[k] = &termsHashNode[i][k]->doclist[d];
                 }
-                // perform n-way merge on each n-gram query
-                filterDocByWords(term, termCnt[i], &qResultCand);
+                if (termCnt[i] == 1) {
+                    int sz = term[0]->size();
+                    qResultCand.reserve(sz);
+                    for (int k = 0; k < sz; k++) {
+                        qResultCand.push_back((*term[0])[k]);
+                    }
+                } else {
+                    // perform n-way merge on each n-gram query
+                    filterDocByWords(term, termCnt[i], &qResultCand);
+                }
             } else {
                 eprintf("GLOBAL query for %d-gram\n", arity);
                 for (int k = 0; k < RESULT_SET_MAX; k++) {
-                    qResultCand.push_back(localDocResult[d][k]);
+                    qResultCand.push_back(clusterResult[d][k]);
                 }
             }
 
-            // filter down the value by automata
+            // filter down the result set by automata
             for (int k = 0, c = qResultCand.size(); k < c; k++) {
                 doc* tarWord = docArr + qResultCand[k];
-                if (qResultMap.find(qResultCand[k]) == qResultMap.end()) {
-                    int verd = patternMatch(&qColl[i], tarWord, arity);
-                    // eprintf("%s", wordStore.get(tarWord->word[0]));
-                    // for (int p = 1; p < arity; p++) {
-                    //     eprintf(" -> %s", wordStore.get(tarWord->word[p]));
-                    // }
-                    // eprintf(", %s\n", verd ? "ACCEPT" : "reject");
-
-                    if (verd) {
+                if (patternMatch(&qColl[i], tarWord, arity)) {
+                    if (qResultMap.find(qResultCand[k]) == qResultMap.end()) {
                         qResultMap.insert(qResultCand[k]);
-                        qResult.push_back((pairDocArity){ qResultCand[k], arity });
+                        qResult.push_back(qResultCand[k]);
                     }
                 }
             }
@@ -463,7 +451,7 @@ int serveQuery() {
     }
 
     // eprintf("result size = %zu\n", qResult.size());
-    int needPartialSort = qResult.size() > RESULT_SET_MAX;
+    int needPartialSort = qResultMap.size() > RESULT_SET_MAX;
 
     // sort by frequencies; de-dup IS SURELY needed
     if (needPartialSort) {
@@ -479,9 +467,9 @@ int serveQuery() {
 
     printf("output: %d\n", finalCount);
     for (int i = 0; i < finalCount; i++) {
-        doc* tarDoc = docArr + qResult[i].first;
+        doc* tarDoc = docArr + qResult[i];
         printf("%s", wordStore.get(tarDoc->word[0]));
-        for (unsigned int k = 1; k < qResult[i].second; k++) {
+        for (unsigned int k = 1; k < NGRAM_MAX_N && tarDoc->word[k] > 0; k++) {
             printf(" %s", wordStore.get(tarDoc->word[k]));
         }
         printf("\t%u\n", tarDoc->freq);
@@ -521,6 +509,10 @@ int main(int argc, char* argv[]) {
             return 1;
         }
     }
+
+    // insert empty string to location 0 for a dummy word,
+    // so we no longer need to keep the arity of a document
+    wordStore.insert((char*) "");
 
     docArr = new doc[NGRAM_ENTRIES];
     unsigned int docCnt = 0;
@@ -600,7 +592,7 @@ int main(int argc, char* argv[]) {
             // re-use the useful compare function
             // no specific order is needed
             if (docInstCmp(docArr[r], val[RESULT_SET_MAX]))
-                localDocResult[i][collected++] = r;
+                clusterResult[i][collected++] = r;
         }
 
 #ifdef VERBOSE
