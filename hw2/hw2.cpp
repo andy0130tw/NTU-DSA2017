@@ -461,14 +461,14 @@ int serveQuery() {
             for (int k = 0, c = qResultCand.size(); k < c; k++) {
                 doc* tarWord = docArr + qResultCand[k];
                 if (patternMatch(&qColl[i], tarWord, arity)) {
-                    if (qResultMap.find(qResultCand[k]) == qResultMap.end()) {
-                        qResultMap.insert(qResultCand[k]);
-                        qResult.push_back(qResultCand[k]);
-                    }
+                    qResultMap.insert(qResultCand[k]);
                 }
             }
         }
+
+        qResult.insert(qResult.end(), qResultMap.begin(), qResultMap.end());
     }
+
 
     int needPartialSort = qResult.size() > RESULT_SET_MAX;
 
