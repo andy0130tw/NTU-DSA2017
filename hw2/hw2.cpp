@@ -1,4 +1,3 @@
-#include<iostream>
 #include<cstdio>
 #include<cstring>
 #include<algorithm>
@@ -6,6 +5,9 @@
 #include<unordered_set>
 
 extern "C" {
+#include<unistd.h>
+#include<sys/types.h>
+#include<sys/mman.h>
 #include<sys/times.h>
 #include<sys/resource.h>
 }
@@ -483,6 +485,24 @@ int serveQuery() {
     return 0;
 }
 
+static char* getstr(char* inp, char* buf) {
+    while ((*inp) > 0 && (*inp) <= 32) inp++;
+    while ((*inp) > 32) {
+        *buf = *inp, buf++, inp++;
+    }
+    *buf = '\0';
+    return (*inp) ? inp : nullptr;
+}
+
+static char* getfreq(char* inp, unsigned int* buf) {
+    int ret = 0;
+    while ((*inp) > 32) {
+        ret = ret * 10 + *inp - '0', inp++;
+    }
+    *buf = ret;
+    return (*inp) ? inp : nullptr;
+}
+
 int main(int argc, char* argv[]) {
     if (argc != 2) {
         eprintf("Usage: %s <ngram-dataset-path>\n", argv[0]);
@@ -525,6 +545,11 @@ int main(int argc, char* argv[]) {
         int isEOF = 0;
         int docStartLoc = docCnt;
 
+        int fd = fileno(dataset[i]);
+        int fileLen = lseek(fd, 0, SEEK_END);
+        char* fileBuf = (char *) mmap(nullptr, fileLen, PROT_READ, MAP_PRIVATE, fd, 0);
+        char* fileCur = fileBuf;
+
         while (1) {
             char buf[48];  // longest string is 40 characters
 
@@ -532,8 +557,8 @@ int main(int argc, char* argv[]) {
             hashNode* wordsEntry[arity];
 
             for (int k = 0; k < arity; k++) {
-                int ok = fscanf(dataset[i], "%s", buf);
-                if (ok <= 0) {
+                fileCur = getstr(fileCur, buf);
+                if (!fileCur) {
                     isEOF = 1;
                     break;
                 }
@@ -560,7 +585,8 @@ int main(int argc, char* argv[]) {
             // create document and assign words to it
             doc* d = &docArr[docCnt++];
             unsigned int doffs = d - docArr;
-            if (fscanf(dataset[i], "%u", &(d->freq)) < 0) abort();
+            // advance to skip the tab character
+            fileCur = getfreq(++fileCur, &(d->freq));
 
             for (int k = 0; k < arity; k++) {
                 // fill in documents
@@ -580,6 +606,10 @@ int main(int argc, char* argv[]) {
             }
 #endif  // VERBOSE
         }
+
+        // clean up
+        munmap(fileBuf, fileLen);
+        fclose(dataset[i]);
 
         // pre-process the local result
         doc val[RESULT_SET_MAX + 1];
