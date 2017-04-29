@@ -1,2 +1,4 @@
 # preserve library provided
 !lib/*
+# the executable
+hw3
