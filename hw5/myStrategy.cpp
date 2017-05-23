@@ -1,41 +1,56 @@
 #include "game.h"
+#define POSITION_TEN 0
+#define POSITION_ONE 1
+
+static int dp[5][5][152];
+static int score;
+static const int penalty = -100;
+
+static int expScore(int tens, int ones, int score) {
+	if (score > SCOREMAX)
+		return penalty;
+
+	if (dp[tens][ones][score])
+		return dp[tens][ones][score];
+
+	if (tens == 0 && ones == 0) {
+		return dp[0][0][score] = score <= SCOREMAX ? score : penalty;
+	}
+
+	int expval = 0;
+	for (int i = 1; i <= 6; i++) {
+		expval += max(tens > 0 ? expScore(tens - 1, ones, score + i * 10) : 0,
+		              ones > 0 ? expScore(tens, ones - 1, score + i)      : 0);
+	}
+
+	return dp[tens][ones][score] = expval;
+}
+
+static int getAvailCount(int state[][2], int offs) {
+	for (int i = 0; i < 4; i++)
+		if (state[i][offs] > 0) {
+			score += state[i][offs] * (offs == POSITION_TEN ? 10 : 1);
+		} else return 4 - i;
+	return 0;
+}
+
+__attribute__((constructor))
+static void initializeTable() {
+	expScore(4, 4, 0);
+}
 
 // My strategy to play the dice sum game
 // Returns 0 for ten's position, 1 for one's position
 int myStrategy(int gameState[4][2], int diceValue) {
-	static int initialized;		// Static variable, default to zero
-	// Add your declaration of DP structure here
-	if (!initialized) {
-		initialized = 1;
-		// Populate your structure here
-	}
-	int tenAvailCount = 0;	// No. of available ten's position
-	for (int j = 0; j < 4; j++)
-		if (gameState[j][0] <= 0) {tenAvailCount = 4 - j; break;}
-	int oneAvailCount = 0;	// No. of available one's position
-	for (int j = 0; j < 4; j++)
-		if (gameState[j][1] <= 0) {oneAvailCount = 4 - j; break;}
-	if ((tenAvailCount != 0) && (oneAvailCount == 0)) return (0);
-	if ((tenAvailCount == 0) && (oneAvailCount != 0)) return (1);
-//	My strategy
-	int strategy = 1;
-	int nextPos, total;
-	switch (strategy) {
-	case 1:
-		nextPos = rand() % 2;
-		break;
-	case 2:
-		nextPos = 0;
-		total = (gameState[0][0] + gameState[1][0] + gameState[2][0] + gameState[3][0]) * 10
-		        + (gameState[0][1] + gameState[1][1] + gameState[2][1] + gameState[3][1]);
-		if (total + diceValue * 10 > SCOREMAX)
-			nextPos = 1;
-		break;
-	case 3:
-		// Add your own strategy (which uses the DP structure) here
-		break;
-	default:
-		printf("Error!\n");
-	}
-	return (nextPos);
+	score = 0;
+	int tenAvailCount = getAvailCount(gameState, POSITION_TEN);
+	int oneAvailCount = getAvailCount(gameState, POSITION_ONE);
+	// score is calculated now (bad coding style, I know)
+
+	if (oneAvailCount == 0) return POSITION_TEN;
+	if (tenAvailCount == 0) return POSITION_ONE;
+
+	return (expScore(tenAvailCount - 1, oneAvailCount, score + diceValue * 10) >
+	        expScore(tenAvailCount, oneAvailCount - 1, score + diceValue)) ?
+	       POSITION_TEN : POSITION_ONE;
 }
