@@ -1,0 +1,66 @@
+body {
+    margin-bottom: 2em;
+}
+
+td.cell-rank,
+td.cell-user {
+    font-weight: 500;
+    font-size: 1.6rem;
+}
+
+td.cell-score {
+    font-weight: 700;
+    font-size: 1.8rem;
+    font-family: 'Source Code Pro', 'Inconsolata', 'Consolas', monospace;
+}
+
+td.cell-ac {
+    background-color: #e8f5e9;
+    color: #1b5e20;
+    font-size: 1.4rem;
+    font-weight: 500;
+}
+
+td.cell-wa {
+    background-color: #ffcdd2;
+    color: #b71c1c;
+}
+
+td.cell-tle {
+    background-color: #bbdefb;
+    color: #0d47a1;
+}
+
+th.cell-prob {
+    font-size: 1rem;
+}
+
+td.cell-prob {
+    font-size: 1.2rem;
+    text-align: center;
+}
+
+table.dataTable thead .cell-prob.sorting_asc,
+table.dataTable thead .cell-prob.sorting_desc {
+    padding-right: 8px;
+}
+
+table.dataTable thead .cell-prob.sorting_asc::after,
+table.dataTable thead .cell-prob.sorting_desc::after {
+    content: '';
+}
+.table > tbody > tr > td {
+    vertical-align: middle;
+}
+
+.text-status-na {
+    color: #ccc;
+}
+
+.DTFC_LeftBodyWrapper {
+    border-right: 1px dashed #aaa;
+}
+
+.sorting_1 {
+    background: #f0f0f0;
+}
