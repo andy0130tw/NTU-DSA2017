@@ -100,3 +100,10 @@ table.dataTable thead .cell-prob.sorting_desc::after {
     display: block;
     text-align: right;
 }
+
+@media screen and (max-width: 720px) {
+    h1 {
+        margin-top: 2em;
+        text-align: right;
+    }
+}
