@@ -52,15 +52,18 @@ var probMarkFunc = function(td, cellData, rowData, row, col) {
 };
 
 problems.forEach(function(p) {
-  p.title += '<span class="text-prob-stat">' + p.user_accepted + '/' + p.user_tried + '</span>' +
-    '<span class="text-prob-team-id">' + (p.pid - 70000) + '</span>';
+  p.title = '<div class="text-prob-title">' + p.title + '</div>';
+  if (p.user_accepted) {
+    p.title += '<div class="text-prob-stat">' + p.user_accepted + '/' + p.user_tried + '</div>';
+  }
+  p.title += '<div class="text-prob-team-id">' + (p.pid - 70000) + '</div>';
   p.data = 'result_' + p.pid;
   p.className = 'cell-prob cell-brob-' + p.pid;
-  p.defaultContent = '<span class="text-status-na">--</span>';
+  p.defaultContent = '<div class="text-status-na">&mdash;</div>';
   p.render = probRenderFunc;
   p.type = 'dual';
   p.orderSequence = [ 'desc' ];
-  p.width = '8rem';
+  p.width = '6rem';
   p.createdCell = probMarkFunc;
   columns.push(p);
 });

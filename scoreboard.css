@@ -15,10 +15,19 @@ td.cell-score {
     font-family: 'Source Code Pro', 'Inconsolata', 'Consolas', monospace;
 }
 
+th.cell-prob {
+    font-size: 1rem;
+}
+
+td.cell-prob {
+    font-size: 1.1rem;
+    text-align: center;
+}
+
 td.cell-ac {
     background-color: #e8f5e9;
     color: #1b5e20;
-    font-size: 1.4rem;
+    font-size: 1.3rem;
     font-weight: 500;
 }
 
@@ -30,15 +39,6 @@ td.cell-wa {
 td.cell-tle {
     background-color: #bbdefb;
     color: #0d47a1;
-}
-
-th.cell-prob {
-    font-size: 1rem;
-}
-
-td.cell-prob {
-    font-size: 1.2rem;
-    text-align: center;
 }
 
 table.dataTable thead .cell-prob.sorting_asc,
@@ -63,6 +63,10 @@ table.dataTable thead .cell-prob.sorting_desc::after {
     border-right: 1px dashed #aaa;
 }
 
+.DTFC_LeftHeadWrapper {
+    z-index: 10;
+}
+
 .sorting_1 {
     background: #f0f0f0;
 }
@@ -71,12 +75,17 @@ table.dataTable thead .cell-prob.sorting_desc::after {
 
 .dataTable .text-prob-team-id {
     color: #cfd8dc;
-    z-index: -1;
     display: block;
     position: absolute;
     font-family: 'Roboto Mono', monospace;
     font-size: 3em;
     top: 0;
+}
+
+.text-prob-title {
+    z-index: 1;
+    position: relative;
+    text-align: center;
 }
 
 .text-prob-stat {
