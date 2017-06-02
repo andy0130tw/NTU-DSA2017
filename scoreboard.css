@@ -73,6 +73,11 @@ table.dataTable thead .cell-prob.sorting_desc::after {
 
 #mainTable .text-prob-team-id { display: none; }
 
+.dataTable td {
+    padding-top: 4px !important;
+    padding-bottom: 4px !important;
+}
+
 .dataTable .text-prob-team-id {
     color: #cfd8dc;
     display: block;

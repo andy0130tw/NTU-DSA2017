@@ -19,7 +19,7 @@ jQuery.extend(jQuery.fn.dataTableExt.oSort, {
 var columns = [
   { title: '#', defaultContent: '', className: 'cell-rank text-right', orderable: false, searchable: false },
   { title: 'User', data: 'username', className: 'cell-user' },
-  { title: 'Trials', data: 'stat', className: 'cell-trial text-right', type: 'dual', orderSequence: [ 'desc', 'asc' ],
+  { title: 'Trials', data: 'stat', className: 'cell-trial text-right hidden-xs hidden-sm', type: 'dual', orderSequence: [ 'desc', 'asc' ],
     render: function(stat, type) {
       if (type == 'sort') {
         return stat ? [ stat.ac_count, -stat.trial_ttl ] : '';
@@ -76,10 +76,10 @@ var t = $('#mainTable').DataTable({
   ],
   // paging: false,
   processing: true,
-  lengthMenu: [ 15, 25, 50, 100, 200 ],
+  lengthMenu: [ 16, 25, 32, 50, 100, 200 ],
   order: [[ 3, 'desc' ]],
   scrollX: true,
-  scrollY: '70vh',
+  scrollY: '65vh',
   fixedColumns: {
     leftColumns: 4
   },
