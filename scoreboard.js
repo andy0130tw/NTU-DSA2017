@@ -52,6 +52,8 @@ var probMarkFunc = function(td, cellData, rowData, row, col) {
 };
 
 problems.forEach(function(p) {
+  p.title += '<span class="text-prob-stat">' + p.user_accepted + '/' + p.user_tried + '</span>' +
+    '<span class="text-prob-team-id">' + (p.pid - 70000) + '</span>';
   p.data = 'result_' + p.pid;
   p.className = 'cell-prob cell-brob-' + p.pid;
   p.defaultContent = '<span class="text-status-na">--</span>';
@@ -71,14 +73,17 @@ var t = $('#mainTable').DataTable({
   ],
   // paging: false,
   processing: true,
-  lengthMenu: [ 15, 25, 50, 100 ],
+  lengthMenu: [ 15, 25, 50, 100, 200 ],
   order: [[ 3, 'desc' ]],
   scrollX: true,
   scrollY: '70vh',
   fixedColumns: {
     leftColumns: 4
   },
-  deferRender: true
+  deferRender: true,
+  colReorder: {
+    fixedColumnsLeft: 4
+  }
 });
 
 t.on('order.dt search.dt', function () {

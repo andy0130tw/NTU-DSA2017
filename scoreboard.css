@@ -1,5 +1,6 @@
 body {
     margin-bottom: 2em;
+    font-family: 'Candreall', sans-serif;
 }
 
 td.cell-rank,
@@ -43,6 +44,7 @@ td.cell-prob {
 table.dataTable thead .cell-prob.sorting_asc,
 table.dataTable thead .cell-prob.sorting_desc {
     padding-right: 8px;
+    background-color: #e8eaf6;
 }
 
 table.dataTable thead .cell-prob.sorting_asc::after,
@@ -63,4 +65,24 @@ table.dataTable thead .cell-prob.sorting_desc::after {
 
 .sorting_1 {
     background: #f0f0f0;
+}
+
+#mainTable .text-prob-team-id { display: none; }
+
+.dataTable .text-prob-team-id {
+    color: #cfd8dc;
+    z-index: -1;
+    display: block;
+    position: absolute;
+    font-family: 'Roboto Mono', monospace;
+    font-size: 3em;
+    top: 0;
+}
+
+.text-prob-stat {
+    color: #009688;
+    font-family: 'Roboto Mono', monospace;
+    font-size: 1.6rem;
+    display: block;
+    text-align: right;
 }
