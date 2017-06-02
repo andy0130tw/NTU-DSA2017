@@ -83,14 +83,16 @@ var t = $('#mainTable').DataTable({
   fixedColumns: {
     leftColumns: 4
   },
-  deferRender: true,
+  // deferRender: true,
   colReorder: {
     fixedColumnsLeft: 4
   }
 });
 
 t.on('order.dt search.dt', function () {
-  t.column(0, { search:'applied', order:'applied' })
+  console.log(t.column(0, { search: 'applied', order: 'applied' }).nodes());
+
+  t.column(0, { search: 'applied', order: 'applied' })
     .nodes()
     .each(function(cell, i) {
       cell.innerHTML = i + 1;
