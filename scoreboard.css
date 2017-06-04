@@ -1,5 +1,9 @@
 body {
     margin-bottom: 2em;
+    font-family: 'Open Sans', 'Lato', sans-serif;
+}
+
+h1 {
     font-family: Cantarell, sans-serif;
 }
 
@@ -97,11 +101,16 @@ table.dataTable thead .cell-prob.sorting_desc::after {
 }
 
 .text-prob-stat {
+    font-size: 1.2rem;
+    color: #555;
+    display: block;
+    text-align: right;
+}
+
+.text-prob-stat .ac {
     color: #009688;
     font-family: 'Roboto Mono', monospace;
     font-size: 1.6rem;
-    display: block;
-    text-align: right;
 }
 
 @media screen and (max-width: 1200px) {

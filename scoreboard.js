@@ -57,8 +57,8 @@ var problemTargets = [];
 problems.forEach(function(p, i) {
   var titleArr = [
     '<div class="text-prob-title">' + p.title + '</div>',
-    p.user_accepted ?
-      '<div class="text-prob-stat">' + p.user_accepted + '/' + p.user_tried + '</div>' : '',
+    p.user_accepted != null ?
+      '<div class="text-prob-stat"><span class="ac">' + p.user_accepted + '</span>/' + p.user_tried + '</div>' : '',
     '<div class="text-prob-team-id">' + (p.pid - 70000) + '</div>'
   ];
   p.title = titleArr.join('');
