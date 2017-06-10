@@ -44,13 +44,8 @@ var probRenderFunc = function(obj, type) {
 };
 
 var probMarkFunc = function(td, cellData, rowData, row, col) {
-  if (cellData.verdict == 'AC') {
-    td.classList.add('cell-ac');
-  } else if (cellData.verdict == 'WA') {
-    td.classList.add('cell-wa');
-  } else if (cellData.verdict == 'TLE') {
-    td.classList.add('cell-tle');
-  }
+  if (cellData && cellData.verdict)
+    return void td.classList.add('cell-' + cellData.verdict.toLowerCase());
 };
 
 var problemTargets = [];

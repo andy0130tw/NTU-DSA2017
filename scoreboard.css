@@ -6,6 +6,10 @@ body {
 h1 {
     font-family: Cantarell, sans-serif;
 }
+/*
+#mainTable {
+    table-layout: fixed;
+}*/
 
 td.cell-rank {
     font-weight: 500;
@@ -48,6 +52,15 @@ td.cell-tle {
     color: #0d47a1;
 }
 
+td.cell-re {
+    background-color: #f3e5f5;
+    color: #4a148c;
+}
+
+td.cell-ole, td.cell-mle {
+    background-color: #eceff1;
+}
+
 table.dataTable thead .cell-prob.sorting_asc,
 table.dataTable thead .cell-prob.sorting_desc {
     padding-right: 8px;
@@ -76,8 +89,8 @@ table.dataTable thead .cell-prob.sorting_desc::after {
 
 .sorting_1 {
     background: #f0f0f0;
-}
 
+}
 #mainTable .text-prob-team-id { display: none; }
 
 .dataTable td {
