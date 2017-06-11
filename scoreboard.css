@@ -35,6 +35,11 @@ h1 {
     line-height: 3.6;
 }
 
+#mainTable,
+#mainTable_wrapper .DTFC_LeftBodyLiner .DTFC_Cloned {
+    padding-bottom: 8rem !important;
+}
+
 /************ seamless ************/
 
 table.dataTable.dataTable {
