@@ -78,17 +78,22 @@ var t = $('#mainTable').DataTable({
       searchable: false
     }
   ],
+  // autoWidth: false,
   processing: true,
-  lengthMenu: [ 16, 25, 32, 50, 100, 200 ],
+  // temporal fix
+  lengthMenu: [ Infinity, 16, 25, 32, 50, 100, 200 ],
   order: [[ 3, 'desc' ]],
   scrollX: true,
-  scrollY: '65vh',
+  // 112px + 6px; XXX: should determine this value dynamically
+  scrollY: 'calc(100vh - 118px)',
   fixedColumns: {
     leftColumns: 4
   },
   colReorder: {
     fixedColumnsLeft: 4
   },
+  dom: "tr<'#helper'if>",
+  // <'row'<'col-sm-5'i><'col-sm-7'p>><'row'<'col-sm-6'l><'col-sm-6'f>>
 });
 
 t.on('order.dt search.dt', function () {
@@ -101,8 +106,8 @@ t.on('order.dt search.dt', function () {
 
 (function(b,c){var $=b.jQuery||b.Cowboy||(b.Cowboy={}),a;$.throttle=a=function(e,f,j,i){var h,d=0;if(typeof f!=="boolean"){i=j;j=f;f=c}function g(){var o=this,m=+new Date()-d,n=arguments;function l(){d=+new Date();j.apply(o,n)}function k(){h=c}if(i&&!h){l()}h&&clearTimeout(h);if(i===c&&m>e){l()}else{if(f!==true){h=setTimeout(i?k:l,i===c?e-m:e)}}}if($.guid){g.guid=j.guid=j.guid||$.guid++}return g};$.debounce=function(d,e,f){return f===c?a(d,e,false):a(d,f,e!==false)}})(this);
 
-$(window)
-  .off('resize')
-  .on('resize', $.debounce(200, function() {
-    t.columns.adjust();
-  }));
+// $(window)
+//   .off('resize')
+//   .on('resize', $.debounce(200, function() {
+//     t.columns.adjust();
+//   }));
