@@ -37,7 +37,7 @@ h1 {
 
 #mainTable,
 #mainTable_wrapper .DTFC_LeftBodyLiner .DTFC_Cloned {
-    padding-bottom: 8rem !important;
+    padding-bottom: 12rem !important;
 }
 
 /************ seamless ************/
@@ -200,7 +200,7 @@ table.dataTable thead .cell-prob.sorting_desc::after {
     }
     #overlay {
         padding-right: 32px;
-        padding-bottom: 9rem;
+        padding-bottom: 12rem;
     }
     #overlay h1 {
         font-size: 3rem;
@@ -210,12 +210,22 @@ table.dataTable thead .cell-prob.sorting_desc::after {
         transform-origin: top right;
     }
 
+    td.cell-user {
+        font-size: 1.4rem;
+    }
+
     table.dataTable thead th,
     table.dataTable thead .sorting,
     table.dataTable thead .sorting_asc,
-    table.dataTable thead .sorting_desc {
+    table.dataTable thead .sorting_desc,
+    table.dataTable tbody td {
         /* to be more compact */
         padding-left: 4px !important;
         padding-right: 4px !important;
+    }
+
+    #mainTable,
+    #mainTable_wrapper .DTFC_LeftBodyLiner .DTFC_Cloned {
+        padding-bottom: 24rem !important;
     }
 }
