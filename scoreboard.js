@@ -56,11 +56,13 @@ problems.forEach(function(p, i) {
       '<div class="text-prob-stat"><span class="ac">' + p.user_accepted + '</span>/' + p.user_tried + '</div>' : '',
     '<div class="text-prob-team-id">' + (p.pid - 70000) + '</div>'
   ];
+  var colIdx = i + 4;  // problem starts at 4th column
   p.title = titleArr.join('');
   p.data = 'result_' + p.pid;
   p.className = 'cell-prob cell-prob-' + p.pid;
+  p.orderData = [ i + 4, 3, 2, 1 ];
   columns.push(p);
-  problemTargets.push(i + 4);  // problem starts at 4th column
+  problemTargets.push(colIdx);
 });
 
 var t = $('#mainTable').DataTable({
@@ -93,7 +95,6 @@ var t = $('#mainTable').DataTable({
     fixedColumnsLeft: 4
   },
   dom: "tr<'#helper'if>",
-  // <'row'<'col-sm-5'i><'col-sm-7'p>><'row'<'col-sm-6'l><'col-sm-6'f>>
 });
 
 t.on('order.dt search.dt', function () {

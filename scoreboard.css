@@ -109,9 +109,16 @@ td.cell-ole, td.cell-mle {
 
 /************ table sorting display ************/
 
-table.dataTable thead .cell-prob.sorting_asc,
-table.dataTable thead .cell-prob.sorting_desc {
-    padding-right: 8px;
+table.dataTable thead .sorting,
+table.dataTable thead .sorting_asc,
+table.dataTable thead .sorting_desc {
+    padding-bottom: 4rem;
+    padding-left: 16px !important;
+    padding-right: 16px !important;
+}
+
+table.dataTable thead .sorting_asc,
+table.dataTable thead .sorting_desc {
     background-color: #e8eaf6;
 }
 
@@ -190,5 +197,16 @@ table.dataTable thead .cell-prob.sorting_desc::after {
 @media screen and (max-width: 480px) {
     html {
         font-size: 8px;
+    }
+    #overlay {
+        padding-right: 32px;
+        padding-bottom: 9rem;
+    }
+    #overlay h1 {
+        font-size: 3rem;
+    }
+    #helper {
+        transform: scale(0.75);
+        transform-origin: top right;
     }
 }
