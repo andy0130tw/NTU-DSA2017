@@ -205,7 +205,7 @@ table.dataTable thead .cell-prob.sorting_desc::after {
     #overlay h1 {
         font-size: 3rem;
     }
-    #helper {
+    #ribbon {
         transform: scale(0.75);
         transform-origin: top right;
     }
