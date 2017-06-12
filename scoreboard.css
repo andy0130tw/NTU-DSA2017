@@ -209,4 +209,13 @@ table.dataTable thead .cell-prob.sorting_desc::after {
         transform: scale(0.75);
         transform-origin: top right;
     }
+
+    table.dataTable thead th,
+    table.dataTable thead .sorting,
+    table.dataTable thead .sorting_asc,
+    table.dataTable thead .sorting_desc {
+        /* to be more compact */
+        padding-left: 4px !important;
+        padding-right: 4px !important;
+    }
 }
