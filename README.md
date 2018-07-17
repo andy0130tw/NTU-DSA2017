@@ -1,7 +1,7 @@
 # NTU-DSA2017
 NTU CSIE DSA (Data Structure &amp; Algorithm) Spring 2017.
 
-:heavy_check_mark: [Course website](http://mirlab.org/jang/courses/dsa/i)
+:heavy_check_mark: [Course website](http://mirlab.org/jang/courses/dsa/)
 
 ## Homework
 
